@@ -12,12 +12,12 @@ async def verify_email(message, guild_settings):
     url = f"{endpoint}?email={email}"
     headers = {"Authorization": f"Token {token}"}
 
-    async with aiohttp.ClientSession(headers=headers) as sess:
-        async with sess.get(url) as resp:
-            if resp.status != 200:
+    async with aiohttp.ClientSession(headers=headers) as session:
+        async with session.get(url) as response:
+            if response.status != 200:
                 await message.channel.send("Verification service unavailable.")
                 return False, {}
-            info = await resp.json()
+            info = await response.json()
 
     if info.get("verified"):
         return True, info
