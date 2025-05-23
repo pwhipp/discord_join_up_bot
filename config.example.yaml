@@ -1,15 +1,15 @@
 bot:
   name: join_up_bot
   token: <bot token goes here>
-  permissions: 8  # Administrator
+  permissions: 402721792  # Manage Roles/Nicknames and View/Send/Read Messages
   url: https://discord.com/oauth2/authorize?client_id=1373887412564000799&permissions=402721856&integration_type=0&scope=bot+applications.commands
-
+      # https://discord.com/oauth2/authorize?client_id=1375347031161311282&permissions=402721792&integration_type=0&scope=bot
 guilds:
   1373882628977201174:
     name: pwhipp's test server
-    verify_endpoint: https://staging.qclub.au/verify_user/
+    verify_endpoint: https://staging.qclub.au/api/verify_user/
     service_token: <service token goes here>
   1341610885122363524:
     name: COBPC
-    verify_endpoint: https://staging.qclub.au/verify_user/
+    verify_endpoint: https://staging.qclub.au/api/verify_user/
     service_token: <service token goes here>
