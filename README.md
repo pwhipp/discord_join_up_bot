@@ -24,7 +24,21 @@ The Join Up Bot role should be positioned above any of the roles it will assign 
 
 We will eventually have a visitior role where front-end users will receive one-time codes that grant temporary access to match-specific channels.
 
-# Service notes
+# Service deployment notes
 
-The service currently runs on qclub.au under the user discord_bot.
+The service currently runs on qclub.au under the user discord_bot. The discord_bot has a key added as a deploy_key to the github account.
+
+```bash
+discord_bot:~$ git clone git@github.com:pwhipp/discord_join_up_bot.git discord_join_up_bot
+discord_bot:~$ cd discord_join_up_bot
+discord_bot:~/discord_join_up_bot$ python3.12 -m venv --prompt bot venv
+((bot) ) discord_bot@ip-172-30-1-44:~/discord_join_up_bot$ pip install -r requirements.txt
+```
+
+In order to allow the discord_bot user to maintain the bot service, the following command must be run on a sudo account:
+```bash
+sudo loginctl enable-linger discord_bot
+```
+
+The deploy folder contains a deploy script that can be used to update the discord_bot user's bot code to the latest version. This assumes that the discord_bot has been added
 

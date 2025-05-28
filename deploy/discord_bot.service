@@ -1,0 +1,14 @@
+[Unit]
+Description=Discord Join Up Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/discord_bot/discord_join_up_bot
+ExecStart=/usr/bin/python3 bot.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
