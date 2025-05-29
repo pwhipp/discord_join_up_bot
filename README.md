@@ -35,9 +35,10 @@ discord_bot:~/discord_join_up_bot$ python3.12 -m venv --prompt bot venv
 ((bot) ) discord_bot@ip-172-30-1-44:~/discord_join_up_bot$ pip install -r requirements.txt
 ```
 
-In order to allow the discord_bot user to maintain the bot service, the following command must be run on a sudo account:
+In order to set up the service, so it restarts on reboot:
+
 ```bash
-sudo loginctl enable-linger discord_bot
+
 ```
 
 The deploy folder contains a deploy script that can be used to update the discord_bot user's bot code to the latest version. This assumes that the discord_bot has been added

@@ -4,11 +4,15 @@ After=network.target
 
 [Service]
 Type=simple
+User=discord_bot
 WorkingDirectory=/home/discord_bot/discord_join_up_bot
-ExecStart=/usr/bin/python3 bot.py
-Restart=always
+ExecStart=/home/discord_bot/discord_join_up_bot/run_bot.sh
+Restart=on-failure
 RestartSec=5
-Environment=PYTHONUNBUFFERED=1
+
+# Optional: redirect stdout/stderr to journalctl
+StandardOutput=journal
+StandardError=journal
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
