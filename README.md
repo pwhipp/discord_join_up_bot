@@ -29,17 +29,27 @@ We will eventually have a visitior role where front-end users will receive one-t
 The service currently runs on qclub.au under the user discord_bot. The discord_bot has a key added as a deploy_key to the github account.
 
 ```bash
-discord_bot:~$ git clone git@github.com:pwhipp/discord_join_up_bot.git discord_join_up_bot
-discord_bot:~$ cd discord_join_up_bot
-discord_bot:~/discord_join_up_bot$ python3.12 -m venv --prompt bot venv
-((bot) ) discord_bot@ip-172-30-1-44:~/discord_join_up_bot$ pip install -r requirements.txt
+discord_bot@qclub.au:~$ git clone git@github.com:pwhipp/discord_join_up_bot.git discord_join_up_bot
+discord_bot@qclub.au:~$ cd discord_join_up_bot
+discord_bot@qclub.au:~/discord_join_up_bot$ python3.12 -m venv --prompt bot venv
+((bot) ) discord_bot@qclub.au:~/discord_join_up_bot$ pip install -r requirements.txt
 ```
 
 In order to set up the service, so it restarts on reboot:
 
+Copy an appropriate config.yaml. For example:
 ```bash
-
+(join_up_bot) paul@PWC2:discord_join_up_bot$ rsync config.yaml qclub.au:
 ```
 
-The deploy folder contains a deploy script that can be used to update the discord_bot user's bot code to the latest version. This assumes that the discord_bot has been added
+```bash
+paul@qclub.au:~$ sudo mv config.yaml /home/discord_bot/discord_join_up_bot
+paul@qclub.au:~$ sudo chown discord_bot:discord_bot /home/discord_bot/discord_join_up_bot/config.yaml
+```
+
+```bash
+paul@qclub.au:~$ sudo cp /home/discord_bot/discord_join_up_bot/deploy/discord_bot.service /etc/systemd/system/
+paul@qclub.au:~$ sudo systemctl enable discord_bot
+Created symlink /etc/systemd/system/multi-user.target.wants/discord_bot.service → /etc/systemd/system/discord_bot.service.
+```
 
