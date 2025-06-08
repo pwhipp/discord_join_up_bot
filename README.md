@@ -11,11 +11,11 @@ Generates a unique nickname from the user’s name, posts a “Welcome @User!”
 # Permissions
 
 Must be given these permissions:
-- Read Messages
-- Send Messages
-- Read Message History
 - Manage Roles
 - Manage Nicknames
+- View Channels
+- Send Messages
+- Read Message History
 
 The Join Up Bot role should be positioned above any of the roles it will assign or remove. In this case, this will be the admin role.
 

@@ -3,8 +3,17 @@ from .email_verification import verify_email
 from .role_manager import set_member_roles, set_nickname
 from .rate_limiter import RateLimiter
 
+
 async def on_ready(self):
-    print(f"Ready as {self.user}. Allowed guilds: {self.allowed_guilds}")
+    print(f"Logged in as {self.user} (ID: {self.user.id})")
+    for guild in self.guilds:
+        if not self.is_guild_allowed(guild.id):
+            continue
+        print(f"\nAllowed guild: {guild.name} (ID: {guild.id})")
+        for channel in guild.text_channels:
+            perms = channel.permissions_for(guild.me)
+            if perms.read_messages and perms.send_messages:
+                print(f"Listening in: #{channel.name} (ID: {channel.id})")
 
 
 async def on_member_join(self, member):
@@ -19,7 +28,8 @@ async def on_member_join(self, member):
     guest_channel = discord.utils.get(member.guild.text_channels, name="guest")
     if guest_channel:
         await guest_channel.send(
-            f"Welcome {member.mention}! To verify your club email, click on {self.user.mention} and send me your email address here."
+            f"Welcome {member.mention}! To verify your club email, click on {self.user.mention} "
+            f"and send me your email address here."
         )
 
     try:

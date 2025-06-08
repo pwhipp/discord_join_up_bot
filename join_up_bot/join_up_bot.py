@@ -20,6 +20,11 @@ class JoinUpBot(commands.Bot):
         self.config = load_config()
         self.rate_limiter = RateLimiter()
 
+    async def setup_hook(self):
+        @self.command()
+        async def ping(ctx):
+            await ctx.send("Pong!")
+
     def run(self, token=None, **kwds):
         if token is None:
             token = self.bot_token
