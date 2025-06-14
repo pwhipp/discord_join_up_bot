@@ -1,3 +1,4 @@
+import discord
 class RateLimiter:
 
     max_attempts = 3
@@ -16,17 +17,24 @@ class RateLimiter:
     def get_attempts(self, user_id):
         return self.failed_attempts.get(user_id, 0)
 
-    async def record_attempts(self, user, guest_channel, admin_role):
+    async def record_attempts(self, user, verification_channel, admin_role):
         count = self.add_attempt(user.id)
         if count >= self.max_attempts:
+            guild = verification_channel.guild
+            member = await guild.fetch_member(user.id)
+            guest = discord.utils.get(guild.roles, name="Guest")
+            unverified = discord.utils.get(guild.roles, name="Unverified")
+            if guest and unverified:
+                await member.remove_roles(guest)
+                await member.add_roles(unverified)
+
             await user.send(
                 f"We are unable to verify your account automatically. "
-                f"Please return to {guest_channel.mention} and an administrator will assist you."
+                f"Please return to {verification_channel.mention} and an administrator will assist you."
             )
-            await guest_channel.send(
-                f"{admin_role.mention} Hey {user.mention}, you’ve joined our "
-                f"{guest_channel.guild.name} discord but we can't verify you as a member. "
-                "Can you help me confirm your identity?"
+            await verification_channel.send(
+                f"{admin_role.mention} Hey {user.mention}, "
+                f"we can't verify you as a member. Can you help me confirm your identity?"
             )
             return True
 

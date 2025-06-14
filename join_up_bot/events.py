@@ -25,13 +25,6 @@ async def on_member_join(self, member):
     if guest_role:
         await member.add_roles(guest_role)
 
-    guest_channel = discord.utils.get(member.guild.text_channels, name="guest")
-    if guest_channel:
-        await guest_channel.send(
-            f"Welcome {member.mention}! To verify your club email, click on {self.user.mention} "
-            f"and send me your email address here."
-        )
-
     try:
         await member.send(
             f"Hi {member.name}! Let’s get you verified. Please reply here with your club email address."
@@ -53,7 +46,7 @@ async def on_message(self, message):
         return await self.process_commands(message)
 
     admin_role = discord.utils.get(guild.roles, name="Admin")
-    guest_channel = discord.utils.get(guild.text_channels, name="guest")
+    verification_channel = discord.utils.get(guild.text_channels, name="verification")
     general_channel = discord.utils.get(guild.text_channels, name="general")
     proposed_email = message.content.strip().lower()
     used_emails_channel = discord.utils.get(guild.text_channels, name="used-emails")
@@ -62,7 +55,8 @@ async def on_message(self, message):
         async for log_message in used_emails_channel.history(limit=None):
             if log_message.content.lower() == proposed_email:
                 await message.author.send("That email address has already been used. Please try again.")
-                if await self.rate_limiter.record_attempts(message.author, guest_channel, admin_role):
+                if await self.rate_limiter.record_attempts(message.author, verification_channel,
+                                                           admin_role):
                     return None
                 return None
 
@@ -93,7 +87,8 @@ async def on_message(self, message):
             except discord.Forbidden:
                 print(f"Could not DM confirmation to {message.author}.")
     else:
-        if await self.rate_limiter.record_attempts(message.author, guest_channel, admin_role):
+        if await self.rate_limiter.record_attempts(message.author, verification_channel,
+                                                   admin_role):
             return None
 
     return None
